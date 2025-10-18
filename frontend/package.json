@@ -1,0 +1,21 @@
+{
+  "name": "verdades-barbudas-frontend",
+  "version": "1.0.0",
+  "description": "Frontend para Verdades Barbudas - Reviews tóxicos de código",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "next": "^15.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.12.0",
+    "eslint-config-next": "^15.5.6"
+  }
+}
