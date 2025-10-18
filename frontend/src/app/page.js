@@ -37,8 +37,8 @@ export default function Home() {
       
       {/* Main Content */}
       <div className="content">
-        {/* Estado: Idle ou mostrando editor */}
-        {(state === 'idle' || isSuccess) && (
+        {/* Editor visível somente antes de concluir um review */}
+        {!isSuccess && (
           <CodeEditor
             onSubmit={submitReview}
             isLoading={isLoading}
