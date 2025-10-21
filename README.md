@@ -62,7 +62,7 @@ npm run dev
 3. Clicar "Me fazer um Review!"
 4. Esperar resposta tóxica do Rick
 
-## 🔑 Configurar IAs
+## �🔑 Configurar IAs
 
 ### Google Gemini (Recomendado - Gratuito)
 
