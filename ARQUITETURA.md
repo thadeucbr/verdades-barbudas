@@ -202,12 +202,57 @@ NEXT_PUBLIC_API_TIMEOUT=30000
 
 ## 🚀 Próximos Passos
 
-1. Criar estrutura backend com Express
-2. Implementar providers de IA
-3. Configurar rate limiting e middleware
-4. Criar frontend com Next.js
-5. Testar integração
-6. Deploy
+### ✅ Concluído
+
+1. ✅ Criar estrutura backend com Express
+2. ✅ Implementar providers de IA
+3. ✅ Configurar rate limiting e middleware
+4. ✅ Criar frontend com Next.js
+5. ✅ Testar integração
+6. ✅ Configurar Docker e Docker Compose
+7. ✅ Documentar deploy com Cloudflare Zero Trust
+
+### 🚀 Próximas Melhorias
+
+1. Implementar autenticação de usuários
+2. Adicionar banco de dados para histórico
+3. Criar dashboard de métricas
+4. Implementar webhooks
+5. Adicionar mais providers de IA
+6. Criar testes automatizados
+
+---
+
+## 🐳 Deploy e Infraestrutura
+
+### Docker
+
+O projeto está containerizado usando Docker multi-stage builds:
+
+- **Backend**: Node.js 22 Alpine (imagem otimizada)
+- **Frontend**: Next.js standalone mode (build otimizado)
+- **Comunicação**: Rede interna Docker entre containers
+
+### Arquitetura de Produção
+
+```text
+Cloudflare Zero Trust
+        ↓
+Frontend Container (4310)
+        ↓ (rede Docker)
+Backend Container (4311)
+        ↓
+AI APIs (Gemini/OpenAI/Ollama)
+```
+
+**Características:**
+
+- Frontend exposto via Cloudflare: `verdades.barbudas.com`
+- Backend NÃO exposto publicamente (apenas rede interna)
+- Comunicação interna: `http://backend:4311`
+- Apenas 1 domínio necessário no Cloudflare
+
+Consulte `DEPLOYMENT_DOCKER.md` para instruções completas de deploy.
 
 ---
 

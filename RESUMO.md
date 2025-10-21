@@ -324,12 +324,67 @@ verdades-barbudas/
 
 ## 🔜 Próximos Passos Sugeridos
 
-1. **Testar completamente** - Backend + Frontend
-2. **Configurar chave de API** - Gemini / OpenAI / Ollama
-3. **Customizar prompts** - Adicionar mais referências ao Rick
-4. **Adicionar BD** - MongoDB ou PostgreSQL para histórico
-5. **Deploy** - Heroku, Railway, Vercel, etc
-6. **Monitoramento** - Sentry, Datadog, etc
+### ✅ Concluído
+
+1. ✅ **Testar completamente** - Backend + Frontend testados
+2. ✅ **Configurar chave de API** - Gemini / OpenAI / Ollama
+3. ✅ **Docker Setup** - Dockerfiles criados para backend e frontend
+4. ✅ **Docker Compose** - Orquestração de containers configurada
+5. ✅ **Comunicação Interna** - Containers se comunicam via rede Docker
+6. ✅ **Deploy Documentation** - Guia completo em DEPLOYMENT_DOCKER.md
+
+### 🚀 Próximas Melhorias
+
+1. **Customizar prompts** - Adicionar mais referências ao Rick
+2. **Adicionar BD** - MongoDB ou PostgreSQL para histórico
+3. **Monitoramento** - Sentry, Datadog, etc
+4. **Testes Automatizados** - Jest, Cypress
+5. **CI/CD** - GitHub Actions
+6. **Métricas** - Analytics de uso
+
+---
+
+## 🐳 Deploy com Docker
+
+### ✅ Arquivos Criados
+
+- `backend/Dockerfile` - Container do backend (Node.js Alpine)
+- `frontend/Dockerfile` - Container do frontend (Next.js standalone)
+- `docker-compose.yml` - Orquestração de ambos os serviços
+
+### 📡 Arquitetura de Rede
+
+```text
+Internet → Cloudflare Tunnel
+              ↓
+    Frontend (verdades.barbudas.com)
+    Container: porta 4310
+              ↓ (rede interna Docker)
+    Backend (http://backend:4311)
+    Container: porta 4311 (não exposto publicamente)
+```
+
+### 🔧 Configuração
+
+- Frontend e backend se comunicam via **nome do serviço** Docker
+- Backend não precisa ser exposto publicamente no Cloudflare
+- Apenas 1 domínio necessário: `verdades.barbudas.com`
+- Comunicação interna: `http://backend:4311`
+
+### 📝 Comandos Docker
+
+```bash
+# Subir containers
+sudo docker compose up --build -d
+
+# Ver logs
+sudo docker compose logs -f
+
+# Parar containers
+sudo docker compose down
+```
+
+Consulte `DEPLOYMENT_DOCKER.md` para instruções completas.
 
 ---
 
@@ -367,6 +422,6 @@ Projeto completo e pronto para:
 
 ---
 
-_Última atualização: 17 de outubro de 2025_
-_Version: 1.0.0_
+_Última atualização: 21 de outubro de 2025_
+_Version: 1.1.0 - Docker & Deploy_
 _Criado para fácil manutenção por IAs 🤖_

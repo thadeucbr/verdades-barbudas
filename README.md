@@ -228,7 +228,50 @@ npm run dev
 
 ## 🚀 Deploy
 
-### Backend (Heroku, Railway, etc)
+### 🐳 Docker (Recomendado)
+
+A forma mais fácil de fazer deploy é usando Docker Compose:
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/thadeucbr/verdades-barbudas.git
+cd verdades-barbudas
+
+# 2. Configure as variáveis de ambiente
+cp .env.example .env
+# Edite o .env com suas chaves de API
+
+# 3. Suba os containers
+docker compose up --build -d
+
+# 4. Acesse
+# Frontend: http://localhost:4310
+# Backend: http://localhost:4311
+```
+
+**Características:**
+
+- ✅ Frontend e Backend isolados em containers
+- ✅ Comunicação interna via rede Docker
+- ✅ Imagens otimizadas (Node.js Alpine)
+- ✅ Builds multi-stage
+- ✅ Pronto para produção
+
+### ☁️ Deploy em Produção com Cloudflare
+
+Para deploy em servidor Ubuntu com Cloudflare Zero Trust:
+
+1. Configure o servidor com Docker e Docker Compose
+2. Clone o repositório no servidor
+3. Configure o `.env` com suas chaves
+4. Rode `docker compose up --build -d`
+5. Configure Cloudflare Tunnel para `verdades.barbudas.com → localhost:4310`
+
+**📚 Consulte `DEPLOYMENT_DOCKER.md` para instruções completas.**
+
+### 🔧 Deploy Manual
+
+#### Backend (Heroku, Railway, etc)
 
 ```bash
 # Build
@@ -241,7 +284,7 @@ npm start
 # GEMINI_API_KEY, OPENAI_API_KEY, etc
 ```
 
-### Frontend (Vercel, Netlify, etc)
+#### Frontend (Vercel, Netlify, etc)
 
 ```bash
 # Build

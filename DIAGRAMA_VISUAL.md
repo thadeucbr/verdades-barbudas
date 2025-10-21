@@ -329,32 +329,59 @@ useReview Hook Estados:
 
 ---
 
-## Deploy (Exemplo)
+## 🐳 Deploy com Docker
 
-```
+```text
 DESENVOLVIMENTO (Local)
 ├─ Backend: npm run dev (port 3001)
 └─ Frontend: npm run dev (port 3000)
 
-PRODUÇÃO (Exemplo: Heroku + Vercel)
+PRODUÇÃO (Docker + Cloudflare Zero Trust)
 
-Backend (Heroku)
-├─ buildpack: heroku/nodejs
-├─ vars de env:
-│  ├─ AI_PROVIDER=gemini
-│  ├─ GEMINI_API_KEY=...
-│  ├─ PORT=3001
-│  └─ NODE_ENV=production
-└─ comando: npm start
+┌─────────────────────────────────────────────────────────┐
+│                    CLOUDFLARE TUNNEL                     │
+│                                                          │
+│  verdades.barbudas.com → http://127.0.0.1:4310         │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│              DOCKER COMPOSE (Ubuntu Server)             │
+│                                                          │
+│  ┌──────────────────────────────────────────────┐      │
+│  │  Frontend Container (verdades-frontend)       │      │
+│  │  - Porta: 4310                                │      │
+│  │  - Image: Node 22 Alpine                      │      │
+│  │  - Next.js Standalone Build                   │      │
+│  │  - ENV: NEXT_PUBLIC_BACKEND_URL=http://backend:4311│
+│  └──────────────────────────────────────────────┘      │
+│                      ↓ (rede interna Docker)            │
+│  ┌──────────────────────────────────────────────┐      │
+│  │  Backend Container (verdades-backend)         │      │
+│  │  - Porta: 4311 (NÃO exposto publicamente)    │      │
+│  │  - Image: Node 22 Alpine                      │      │
+│  │  - Express.js                                 │      │
+│  │  - ENV: AI_PROVIDER, GEMINI_API_KEY, etc     │      │
+│  └──────────────────────────────────────────────┘      │
+│                      ↓                                   │
+│              AI APIs (Gemini/OpenAI/Ollama)             │
+└─────────────────────────────────────────────────────────┘
 
-Frontend (Vercel)
-├─ framework: Next.js
-├─ build: npm run build
-├─ vars de env:
-│  └─ NEXT_PUBLIC_BACKEND_URL=https://seu-backend.herokuapp.com
-└─ deploy automático de pushes
+Características:
+✅ Backend NÃO exposto na internet (apenas rede interna)
+✅ Apenas 1 domínio necessário no Cloudflare
+✅ Comunicação segura entre containers via nome do serviço
+✅ Builds multi-stage otimizados
+✅ Imagens Alpine Linux (leves)
+✅ Hot restart com Docker Compose
+
+Comandos:
+docker compose up --build -d    # Subir containers
+docker compose logs -f          # Ver logs
+docker compose down             # Parar containers
 ```
+
+**Consulte `DEPLOYMENT_DOCKER.md` para instruções completas.**
 
 ---
 
-_Diagrama atualizado: 17 de outubro de 2025_
+_Diagrama atualizado: 21 de outubro de 2025_
