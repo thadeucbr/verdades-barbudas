@@ -21,7 +21,7 @@ services:
       RATE_LIMIT_MAX_REQUESTS: ${RATE_LIMIT_MAX_REQUESTS:-10}
       MAX_CODE_SIZE: ${MAX_CODE_SIZE:-51200}
       AI_TIMEOUT: ${AI_TIMEOUT:-30000}
-      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://verdades.barbudas.com,https://backverdades.barbudas.com}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://verdades.barbudas.com}
     ports:
       - '4311:4311'
 
@@ -37,7 +37,8 @@ services:
       NODE_ENV: production
       PORT: 4310
       HOSTNAME: 0.0.0.0
-      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-https://backverdades.barbudas.com}
+      # URL interna para comunicação entre containers
+      NEXT_PUBLIC_BACKEND_URL: http://backend:4311
       NEXT_PUBLIC_API_TIMEOUT: ${NEXT_PUBLIC_API_TIMEOUT:-30000}
     ports:
       - '4310:4310'

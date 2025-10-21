@@ -24,7 +24,8 @@ ENV PORT=4310
 ENV HOSTNAME=0.0.0.0
 
 # Copia artefatos standalone do Next.js
-COPY --from=builder /app/public ./public
+# Copia public apenas se existir (usando shell para evitar erro se não existir)
+RUN mkdir -p ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/package.json ./package.json

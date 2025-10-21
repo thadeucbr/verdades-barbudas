@@ -6,7 +6,7 @@ Este guia resume os passos para rodar o Verdades Barbudas em um servidor Ubuntu 
 
 - Ubuntu 22.04 LTS (ou superior) com acesso root
 - Docker Engine e Docker Compose instalados
-- Domínios configurados no Cloudflare (`verdades.barbudas.com` e `backverdades.barbudas.com`)
+- Domínio configurado no Cloudflare (`verdades.barbudas.com`)
 - Chave válida do provedor de IA escolhido (ex.: `GEMINI_API_KEY`)
 
 ## 2. Clonar o repositório no servidor
@@ -36,10 +36,12 @@ RATE_LIMIT_WINDOW_MS=60000
 RATE_LIMIT_MAX_REQUESTS=10
 MAX_CODE_SIZE=51200
 AI_TIMEOUT=30000
-ALLOWED_ORIGINS=https://verdades.barbudas.com,https://backverdades.barbudas.com
+ALLOWED_ORIGINS=https://verdades.barbudas.com
 
 # --- Frontend ---
-NEXT_PUBLIC_BACKEND_URL=https://backverdades.barbudas.com
+# NOTA: NEXT_PUBLIC_BACKEND_URL é configurado automaticamente no docker-compose.yml
+# para comunicação interna entre containers (http://backend:4311)
+# Não é necessário definir no .env
 NEXT_PUBLIC_API_TIMEOUT=30000
 EOF
 ```
@@ -57,6 +59,12 @@ Serviços:
 - Frontend: porta interna `4310`
 - Backend: porta interna `4311`
 
+**📡 Comunicação entre containers:**
+
+- O frontend acessa o backend via **nome do serviço**: `http://backend:4311`
+- Isso é configurado automaticamente pelo Docker Compose (rede interna)
+- Os domínios externos (`*.barbudas.com`) são apenas para acesso via Cloudflare
+
 Verifique os logs se necessário:
 
 ```bash
@@ -67,11 +75,12 @@ sudo docker compose logs -f backend
 ## 5. Configurar Cloudflare Zero Trust
 
 1. Crie (ou edite) um túnel apontando para o IP do seu servidor Ubuntu.
-2. Adicione duas rotas HTTP no túnel:
+2. Adicione **apenas uma rota HTTP** no túnel:
    - `https://verdades.barbudas.com` → `http://127.0.0.1:4310`
-   - `https://backverdades.barbudas.com` → `http://127.0.0.1:4311`
 3. Salve e publique o túnel.
 4. (Opcional) Crie políticas de acesso para limitar quem pode abrir as URLs.
+
+**⚠️ IMPORTANTE:** O backend NÃO precisa ser exposto publicamente. Ele só é acessível internamente pelo frontend através da rede Docker (`http://backend:4311`).
 
 ## 6. Manutenção
 
